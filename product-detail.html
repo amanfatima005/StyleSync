@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - StyleSync AI Smart Coordination</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .ai-match-score {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd966, #ffb347);
+            color: #0a0a5c;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .recommendation-card {
+            position: relative;
+        }
+        
+        .match-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #4caf50;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .ai-tip {
+            background: #f0f0f0;
+            border-left: 4px solid #ffd966;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .ai-tip i {
+            color: #ffd966;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="top-bar">
+            <span>🤖 AI-POWERED SMART COORDINATION | FREE SHIPPING ON ORDERS $50+ ✨</span>
+        </div>
+        <div class="main-header">
+            <div class="logo">
+                <a href="index.html">STYLE<span>SYNC</span></a>
+                <small>AI-Powered Smart Coordination</small>
+            </div>
+            <div class="header-icons">
+                <a href="#" class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+                <a href="outfit-builder.html" class="outfit-icon">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Builder</span>
+                </a>
+            </div>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="index.html" onclick="filterByType('clothing'); return false;">CLOTHING</a></li>
+                <li><a href="index.html" onclick="filterByType('shoes'); return false;">SHOES</a></li>
+                <li><a href="index.html" onclick="filterByType('jewelry'); return false;">JEWELRY</a></li>
+                <li><a href="outfit-builder.html">AI OUTFIT BUILDER</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="product-detail-page">
+        <div class="container">
+            <div class="product-detail-container" id="productDetailContainer">
+                <!-- Product details will be loaded dynamically -->
+                <div style="text-align: center; padding: 60px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 48px; color: #0a0a5c;"></i>
+                    <p>Loading product details...</p>
+                </div>
+            </div>
+
+            <!-- AI Styling Tips -->
+            <div id="aiStylingTips" class="ai-tip" style="display: none;">
+                <i class="fas fa-robot"></i>
+                <strong>AI Styling Tip:</strong>
+                <span id="stylingTipText"></span>
+            </div>
+
+            <!-- Smart Recommendations Section with AI Scores -->
+            <section class="recommendations-section">
+                <h2 class="section-title">🤖 AI-Powered Complete Your Look</h2>
+                <p class="recommendation-desc">Based on color harmony, occasion, and style trends (AI Match Scores shown)</p>
+                
+                <div class="recommendation-tabs">
+                    <button class="rec-tab active" onclick="showRecommendationType('shoes')">👟 AI Matched Shoes</button>
+                    <button class="rec-tab" onclick="showRecommendationType('jewelry')">💎 AI Matched Jewelry</button>
+                </div>
+
+                <div id="shoesRecommendations" class="recommendations-grid"></div>
+                <div id="jewelryRecommendations" style="display: none;" class="recommendations-grid"></div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2024 StyleSync AI - Smart Outfit Coordination</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2><i class="fas fa-shopping-bag"></i> Your Cart</h2>
+            <button class="close-cart" id="closeCartBtn">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart">Your cart is empty</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total" id="cartTotal">
+                <span>Total:</span>
+                <span class="total-amount">$0.00</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/recommendations-ai.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Outfit Builder - StyleSync AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ========== COMPLETE REDESIGN ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ebe5ce;
+            color: #1a1a2e;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        .header {
+            background: #0a0a5c;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-bar {
+            background: linear-gradient(135deg, #ffd966, #ffb347);
+            color: #0a0a5c;
+            text-align: center;
+            padding: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .main-header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo a {
+            font-size: 28px;
+            font-weight: 800;
+            text-decoration: none;
+            color: #ebe5ce;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: #ffd966;
+            position: relative;
+        }
+
+        .logo span::after {
+            content: '🤖';
+            font-size: 14px;
+            position: absolute;
+            top: -10px;
+            right: -20px;
+        }
+
+        .logo small {
+            display: block;
+            font-size: 10px;
+            color: #ebe5ce;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .header-icons a {
+            color: #ebe5ce;
+            font-size: 20px;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.3s;
+        }
+
+        .header-icons a:hover {
+            color: #ffd966;
+            transform: translateY(-2px);
+        }
+
+        .header-icons a span {
+            font-size: 10px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #ff6b6b;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            padding: 60px 0 30px;
+        }
+
+        .page-header h1 {
+            font-size: 48px;
+            color: #0a0a5c;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .page-header h1 i {
+            background: linear-gradient(135deg, #ffd966, #ffb347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 48px;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 18px;
+        }
+
+        /* Builder Layout */
+        .builder-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        /* Preview Area */
+        .preview-area {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .preview-area:hover {
+            transform: translateY(-5px);
+        }
+
+        .preview-area h3 {
+            font-size: 24px;
+            color: #0a0a5c;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #ffd966;
+            padding-bottom: 15px;
+        }
+
+        .preview-area h3 i {
+            color: #ffd966;
+        }
+
+        .outfit-preview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .preview-slot {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border-radius: 16px;
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px dashed #e0e0e0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preview-slot::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 217, 102, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .preview-slot:hover::before {
+            opacity: 1;
+        }
+
+        .preview-slot:hover {
+            border-color: #ffd966;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-slot.filled {
+            border: 2px solid #0a0a5c;
+            background: white;
+        }
+
+        .slot-placeholder i {
+            font-size: 48px;
+            color: #ccc;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .slot-placeholder span {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .preview-slot img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .preview-slot p {
+            margin-top: 10px;
+            font-weight: 600;
+            color: #0a0a5c;
+        }
+
+        .preview-slot small {
+            display: block;
+            color: #ffd966;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        /* Outfit Score */
+        .outfit-score-container {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .outfit-score {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .score-circle {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        .circular-chart {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .circle-bg {
+            fill: none;
+            stroke: #e0e0e0;
+            stroke-width: 3.8;
+        }
+
+        .circle {
+            fill: none;
+            stroke-width: 3.8;
+            stroke-linecap: round;
+            transition: stroke-dasharray 1s ease;
+        }
+
+        .percentage {
+            fill: #0a0a5c;
+            font-size: 8px;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            font-weight: bold;
+            transform: rotate(90deg);
+        }
+
+        .score-text h4 {
+            font-size: 18px;
+            color: #0a0a5c;
+            margin-bottom: 5px;
+        }
+
+        .score-text p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* Action Buttons */
+        .outfit-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .save-outfit-btn, .add-all-to-cart {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .save-outfit-btn {
+            background: #0a0a5c;
+            color: #ebe5ce;
+        }
+
+        .save-outfit-btn:hover {
+            background: #ffd966;
+            color: #0a0a5c;
+            transform: translateY(-2px);
+        }
+
+        .add-all-to-cart {
+            background: #ffd966;
+            color: #0a0a5c;
+        }
+
+        .add-all-to-cart:hover {
+            background: #0a0a5c;
+            color: #ebe5ce;
+            transform: translateY(-2px);
+        }
+
+        /* Selection Area */
+        .selection-area {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .selection-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            background: #f5f5f5;
+            padding: 5px;
+            border-radius: 60px;
+        }
+
+        .selection-tab {
+            flex: 1;
+            padding: 12px;
+            background: transparent;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .selection-tab.active {
+            background: #0a0a5c;
+            color: #ebe5ce;
+            box-shadow: 0 2px 10px rgba(10, 10, 92, 0.3);
+        }
+
+        .selection-tab:hover:not(.active) {
+            background: #e0e0e0;
+            color: #0a0a5c;
+        }
+
+        /* Items Grid */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .items-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .items-grid::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 3px;
+        }
+
+        .items-grid::-webkit-scrollbar-thumb {
+            background: #ffd966;
+            border-radius: 3px;
+        }
+
+        .item-card {
+            background: #f8f9fa;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            border-color: #ffd966;
+        }
+
+        .item-card.recommended-item {
+            border-color: #ffd966;
+            background: linear-gradient(135deg, #fffef7, #ffffff);
+            position: relative;
+        }
+
+        .item-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .item-card-info {
+            padding: 12px;
+            text-align: center;
+        }
+
+        .item-card-info h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #0a0a5c;
+        }
+
+        .item-card-info p {
+            color: #ffd966;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .rec-badge {
+            display: inline-block;
+            background: #ffd966;
+            color: #0a0a5c;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        /* AI Suggestions Card */
+        .ai-suggestions-card {
+            background: linear-gradient(135deg, #0a0a5c, #1a1a7a);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 40px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ffd966;
+        }
+
+        .ai-header i {
+            font-size: 32px;
+            color: #ffd966;
+        }
+
+        .ai-header h4 {
+            flex: 1;
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .confidence-score {
+            background: #ffd966;
+            color: #0a0a5c;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .styling-tips, .color-palette, .recommended-items {
+            margin-bottom: 25px;
+        }
+
+        .styling-tips h5, .color-palette h5, .recommended-items h5 {
+            font-size: 14px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffd966;
+        }
+
+        .styling-tips ul {
+            list-style: none;
+        }
+
+        .styling-tips li {
+            padding: 8px 0;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .styling-tips li i {
+            color: #ffd966;
+            font-size: 12px;
+        }
+
+        .palette-colors {
+            display: flex;
+            gap: 10px;
+        }
+
+        .palette-color {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .palette-color:hover {
+            transform: scale(1.1);
+        }
+
+        .mini-recommendations {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .mini-item {
+            width: 100px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 10px;
+        }
+
+        .mini-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .mini-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .mini-item p {
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+
+        .mini-item small {
+            font-size: 10px;
+            color: #ffd966;
+        }
+
+        .ai-message {
+            text-align: center;
+            padding: 40px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        /* Saved Outfits Section */
+        .saved-outfits {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            margin-top: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .saved-outfits h3 {
+            font-size: 24px;
+            color: #0a0a5c;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #ffd966;
+            padding-bottom: 15px;
+        }
+
+        .saved-outfits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .saved-outfit-card {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .saved-outfit-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .outfit-thumbnails {
+            display: flex;
+            gap: 8px;
+        }
+
+        .outfit-thumbnails img, .empty-slot {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 10px;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-slot i {
+            font-size: 24px;
+            color: #999;
+        }
+
+        .outfit-details {
+            flex: 1;
+        }
+
+        .outfit-score-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .outfit-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin: 8px 0;
+        }
+
+        .tag {
+            background: #e0e0e0;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            color: #666;
+        }
+
+        .load-outfit-btn {
+            background: #0a0a5c;
+            color: #ebe5ce;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .load-outfit-btn:hover {
+            background: #ffd966;
+            color: #0a0a5c;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            grid-column: 1/-1;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0a0a5c;
+            color: #ebe5ce;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .builder-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .outfit-preview {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-header h1 {
+                font-size: 32px;
+                flex-direction: column;
+            }
+            
+            .container {
+                padding: 0 20px;
+            }
+            
+            .saved-outfits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .outfit-actions {
+                flex-direction: column;
+            }
+            
+            .outfit-score {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="top-bar">
+            <span>🤖 AI-POWERED OUTFIT BUILDER | SMART STYLE RECOMMENDATIONS ✨</span>
+        </div>
+        <div class="main-header">
+            <div class="logo">
+                <a href="index.html">STYLE<span>SYNC</span></a>
+                <small>AI Outfit Builder</small>
+            </div>
+            <div class="header-icons">
+                <a href="#" class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Cart</span>
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+                <a href="index.html">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>
+                    <i class="fas fa-robot"></i>
+                    AI Outfit Builder
+                </h1>
+                <p>Let AI help you create the perfect outfit with smart color coordination and style scoring</p>
+            </div>
+
+            <!-- Builder Layout -->
+            <div class="builder-layout">
+                <!-- Left Side - Preview Area -->
+                <div class="preview-area">
+                    <h3>
+                        <i class="fas fa-eye"></i>
+                        Your Outfit Preview
+                    </h3>
+                    
+                    <div class="outfit-preview" id="outfitPreview">
+                        <div class="preview-slot clothing-slot" data-type="clothing">
+                            <div class="slot-placeholder">
+                                <i class="fas fa-tshirt"></i>
+                                <span>Select Clothing</span>
+                            </div>
+                        </div>
+                        <div class="preview-slot shoes-slot" data-type="shoes">
+                            <div class="slot-placeholder">
+                                <i class="fas fa-shoe-prints"></i>
+                                <span>Select Shoes</span>
+                            </div>
+                        </div>
+                        <div class="preview-slot jewelry-slot" data-type="jewelry">
+                            <div class="slot-placeholder">
+                                <i class="fas fa-gem"></i>
+                                <span>Select Jewelry</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Outfit Score Display -->
+                    <div id="outfitScore" class="outfit-score-container"></div>
+                    
+                    <div class="outfit-actions">
+                        <button class="save-outfit-btn" onclick="saveCurrentOutfit()">
+                            <i class="fas fa-save"></i> Save Outfit
+                        </button>
+                        <button class="add-all-to-cart" onclick="addCompleteOutfitToCart()">
+                            <i class="fas fa-shopping-cart"></i> Add Complete Outfit to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Side - Item Selection -->
+                <div class="selection-area">
+                    <div class="selection-tabs">
+                        <button class="selection-tab active" onclick="showItemType('clothing')">
+                            <i class="fas fa-tshirt"></i> Clothing
+                        </button>
+                        <button class="selection-tab" onclick="showItemType('shoes')">
+                            <i class="fas fa-shoe-prints"></i> Shoes
+                        </button>
+                        <button class="selection-tab" onclick="showItemType('jewelry')">
+                            <i class="fas fa-gem"></i> Jewelry
+                        </button>
+                    </div>
+                    
+                    <div id="clothingItems" class="items-grid"></div>
+                    <div id="shoesItems" style="display: none;" class="items-grid"></div>
+                    <div id="jewelryItems" style="display: none;" class="items-grid"></div>
+                </div>
+            </div>
+
+            <!-- AI Suggestions Section -->
+            <div id="aiSuggestions"></div>
+
+            <!-- Saved Outfits Section -->
+            <section class="saved-outfits">
+                <h3>
+                    <i class="fas fa-star"></i>
+                    Your AI-Scored Outfits
+                </h3>
+                <div id="savedOutfitsGrid" class="saved-outfits-grid"></div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 StyleSync AI - Smart Outfit Coordination | Powered by Artificial Intelligence</p>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="overlay" id="overlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2><i class="fas fa-shopping-bag"></i> Your Cart</h2>
+            <button class="close-cart" id="closeCartBtn">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart">Your cart is empty</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total" id="cartTotal">
+                <span>Total:</span>
+                <span class="total-amount">$0.00</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <style>
+        /* Additional styles for cart sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0a0a5c;
+            color: #ebe5ce;
+        }
+
+        .cart-header h2 {
+            font-size: 20px;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ebe5ce;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .empty-cart {
+            text-align: center;
+            color: #999;
+            margin-top: 50px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-details h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: #ffd966;
+            font-weight: bold;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .cart-item-quantity button {
+            background: #f0f0f0;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .cart-footer {
+            padding: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: #ffd966;
+            color: #0a0a5c;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+    </style>
+
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/outfit-builder.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

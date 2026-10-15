@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StyleSync - AI-Powered Smart Outfit Coordination E-Commerce Platform">
+    <title>StyleSync | AI-Powered Smart Outfit Coordination</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="top-bar">
+            <span>🤖 AI-POWERED SMART COORDINATION | FREE SHIPPING ON ORDERS $50+ ✨</span>
+        </div>
+        <div class="main-header">
+            <div class="logo">
+                <a href="index.html">STYLE<span>SYNC</span></a>
+                <small>AI-Powered Smart Coordination</small>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search by color, type, or occasion...">
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="header-icons">
+                <a href="#" class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+                <a href="outfit-builder.html" class="outfit-icon" title="AI Outfit Builder">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Builder</span>
+                </a>
+            </div>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html" class="active">HOME</a></li>
+                <li><a href="javascript:void(0)" onclick="filterByType('clothing')">CLOTHING</a></li>
+                <li><a href="javascript:void(0)" onclick="filterByType('shoes')">SHOES</a></li>
+                <li><a href="javascript:void(0)" onclick="filterByType('jewelry')">JEWELRY</a></li>
+                <li><a href="outfit-builder.html">AI OUTFIT BUILDER</a></li>
+                <li><a href="javascript:void(0)" onclick="showOccasionFilter()">OCCASIONS</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">🤖 AI-Powered Smart Coordination</span>
+            <h1>AI-Powered <br>Outfit Coordination</h1>
+            <p>Our AI analyzes color theory, occasion, and style trends to suggest perfect matches for your outfit.</p>
+            <div class="hero-buttons">
+                <button class="cta-button" onclick="scrollToProducts()">Shop Now</button>
+                <a href="outfit-builder.html" class="cta-button secondary">Try AI Builder →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Smart Filter Section with AI Suggestions -->
+    <section class="smart-filters">
+        <div class="container">
+            <div class="ai-suggestion-bar" id="aiSuggestionBar">
+                <i class="fas fa-robot"></i>
+                <span id="aiSuggestionText">🎨 Select a color to get AI-powered matching suggestions</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Color Filter Section -->
+    <section class="color-filters">
+        <div class="container">
+            <h3>Filter by Color</h3>
+            <div class="color-buttons">
+                <button class="color-btn" style="background: #ff4444;" onclick="filterByColorWithAI('red')" title="Red"></button>
+                <button class="color-btn" style="background: #4444ff;" onclick="filterByColorWithAI('blue')" title="Blue"></button>
+                <button class="color-btn" style="background: #000000;" onclick="filterByColorWithAI('black')" title="Black"></button>
+                <button class="color-btn" style="background: #ffffff; border: 1px solid #ddd;" onclick="filterByColorWithAI('white')" title="White"></button>
+                <button class="color-btn" style="background: #44ff44;" onclick="filterByColorWithAI('green')" title="Green"></button>
+                <button class="color-btn" style="background: #ff69b4;" onclick="filterByColorWithAI('pink')" title="Pink"></button>
+                <button class="color-btn" style="background: #f5f5dc;" onclick="filterByColorWithAI('beige')" title="Beige"></button>
+                <button class="color-btn" style="background: #000080;" onclick="filterByColorWithAI('navy')" title="Navy"></button>
+                <button class="color-btn" style="background: #8B4513;" onclick="filterByColorWithAI('brown')" title="Brown"></button>
+                <button class="color-btn" style="background: #FFD700;" onclick="filterByColorWithAI('gold')" title="Gold"></button>
+                <button class="color-btn" style="background: #C0C0C0;" onclick="filterByColorWithAI('silver')" title="Silver"></button>
+            </div>
+            <button class="clear-filter" onclick="clearFiltersWithAI()">Clear All Filters</button>
+        </div>
+    </section>
+
+    <!-- Occasion Filter Section -->
+    <section class="occasion-filters" id="occasionSection" style="display: none;">
+        <div class="container">
+            <h3>Shop by Occasion</h3>
+            <div class="occasion-buttons">
+                <button class="occasion-btn" onclick="filterByOccasionWithAI('casual')">Casual</button>
+                <button class="occasion-btn" onclick="filterByOccasionWithAI('formal')">Formal</button>
+                <button class="occasion-btn" onclick="filterByOccasionWithAI('party')">Party</button>
+                <button class="occasion-btn" onclick="filterByOccasionWithAI('work')">Work</button>
+                <button class="occasion-btn" onclick="filterByOccasionWithAI('date')">Date Night</button>
+                <button class="occasion-btn" onclick="filterByOccasionWithAI('beach')">Beach</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">Browse Our Collection</h2>
+            <div class="category-tabs">
+                <button class="tab-btn active" onclick="filterByType('all')">All Items</button>
+                <button class="tab-btn" onclick="filterByType('clothing')">Clothing</button>
+                <button class="tab-btn" onclick="filterByType('shoes')">Shoes</button>
+                <button class="tab-btn" onclick="filterByType('jewelry')">Jewelry</button>
+            </div>
+            <div class="product-grid" id="productGrid"></div>
+        </div>
+    </section>
+
+    <!-- AI Recommendation Section -->
+    <section class="ai-recommendations">
+        <div class="container">
+            <h2 class="section-title">🤖 AI Curated For You</h2>
+            <p class="ai-desc">Based on your browsing behavior and style preferences</p>
+            <div class="personalized-recommendations" id="personalizedRecs"></div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How AI StyleSync Works</h2>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-icon">🤖</div>
+                    <h3>AI Analysis</h3>
+                    <p>Our AI analyzes color theory, occasion, and style trends</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">🎨</div>
+                    <h3>Smart Matching</h3>
+                    <p>Get personalized suggestions based on your preferences</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">✨</div>
+                    <h3>Style Score</h3>
+                    <p>Each outfit gets a style score with improvement tips</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">💡</div>
+                    <h3>Learn & Improve</h3>
+                    <p>AI learns your style and improves recommendations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>STYLESYNC AI</h3>
+                    <p>AI-powered smart outfit coordination platform helping you create perfect looks with machine learning recommendations.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="outfit-builder.html">AI Outfit Builder</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>AI Features</h3>
+                    <ul>
+                        <li><a href="javascript:void(0)" onclick="filterByColorWithAI('black')">Color Matching AI</a></li>
+                        <li><a href="javascript:void(0)" onclick="showOccasionFilter()">Occasion Styling AI</a></li>
+                        <li><a href="outfit-builder.html">Smart Recommendations</a></li>
+                        <li><a href="outfit-builder.html">Style Score</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 StyleSync AI - Smart Outfit Coordination. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="overlay" id="overlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2><i class="fas fa-shopping-bag"></i> Your Cart</h2>
+            <button class="close-cart" id="closeCartBtn">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart">Your cart is empty</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total" id="cartTotal">
+                <span>Total:</span>
+                <span class="total-amount">$0.00</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/recommendations-ai.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
